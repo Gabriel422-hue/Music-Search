@@ -40,6 +40,10 @@ public class MusicaController {
     public Iterable<Musica> obterMusica(){
         return musicaRepository.findAll();
     }
+    @GetMapping(path = "/nome/{parteNome}")
+    public Iterable<Musica> obterMusicasNome(@PathVariable String partenomeDaMusica){
+        return musicaRepository.findByNomeContaining(partenomeDaMusica);
+    }
 
     @GetMapping(path = "/{id}")
     public Optional<Musica> obterMusicaPorID(@PathVariable int id){

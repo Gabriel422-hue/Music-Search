@@ -7,6 +7,8 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 
 public interface MusicaRepository extends PagingAndSortingRepository<Musica, Integer> {
 
+    public Iterable<Musica> findByNomeContaining(String partenomeDaMusica);
+
 }
 
 
