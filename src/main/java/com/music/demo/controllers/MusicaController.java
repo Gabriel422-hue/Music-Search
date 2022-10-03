@@ -3,6 +3,8 @@ package com.music.demo.controllers;
 import com.music.demo.model.Musica;
 import com.music.demo.model.repositories.MusicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +28,14 @@ public class MusicaController {
         return musica;
 
     }
-
+    @GetMapping(path ="/pagina/{numeroPagina}/{qtdePagina}")
+    public Iterable<Musica> obterMusicaPorPagina
+            (@PathVariable int numeroPagina,
+             @PathVariable int qtdePagina){
+        if (qtdePagina >=5 ) qtdePagina = 5;
+        Pageable page = PageRequest.of(numeroPagina, qtdePagina);
+        return musicaRepository.findAll(page);
+    }
     @GetMapping
     public Iterable<Musica> obterMusica(){
         return musicaRepository.findAll();
