@@ -41,9 +41,20 @@ public class MusicaController {
         return musicaRepository.findAll();
     }
     @GetMapping(path = "/nome/{parteNome}")
-    public Iterable<Musica> obterMusicasNome(@PathVariable String partenomeDaMusica){
-        return musicaRepository.findByNomeContaining(partenomeDaMusica);
+    public Iterable<Musica> obterMusicasPorNome(@PathVariable String parteNome){
+        return musicaRepository.findByNomeDaMusicaContainingIgnoreCase(parteNome);
     }
+
+    @GetMapping(path = "/tom/{parteTom}")
+    public Iterable<Musica> obterMusicaPorTom(@PathVariable String parteTom){
+        return musicaRepository.findBytomContainingIgnoreCase(parteTom);
+    }
+
+    @GetMapping(path = "/quemCanta/{parteQuemCanta}")
+    public Iterable<Musica> obterMuscisaPorQuemCanta(@PathVariable String parteQuemCanta){
+        return musicaRepository.findByquemCantaIgnoreCase(parteQuemCanta);
+    }
+
 
     @GetMapping(path = "/{id}")
     public Optional<Musica> obterMusicaPorID(@PathVariable int id){
