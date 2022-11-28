@@ -1,43 +1,39 @@
 package com.music.demo.controllers;
 
 import com.music.demo.model.Musica;
-import com.music.demo.model.repositories.MusicaRepository;
+import com.music.demo.repositories.MusicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.awt.print.Pageable;
 import java.util.Optional;
+
 
 @RestController
 @RequestMapping("/api/musicas")
-public class MusicaController {
+@PreAuthorize("hasRole('ADMIN')")
+public class GetMusicController {
 
     @Autowired
     private MusicaRepository musicaRepository;
-
-    @RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
-    public @ResponseBody Musica salvarMusica(@Validated
-                                             @RequestParam String nomeDaMusica,
-                                             @RequestParam String versao,
-                                             @RequestParam String quemCanta,
-                                             @RequestParam String tom) {
-        Musica musica = new Musica(nomeDaMusica, versao, quemCanta, tom);
-        musicaRepository.save(musica);
-        return musica;
-
-    }
 
     @GetMapping(path = "/pagina/{numeroPagina}/{qtdePagina}")
     public Iterable<Musica> obterMusicaPorPagina
             (@PathVariable int numeroPagina,
              @PathVariable int qtdePagina) {
         if (qtdePagina >= 5) qtdePagina = 5;
-        Pageable page = PageRequest.of(numeroPagina, qtdePagina);
-        return musicaRepository.findAll(page);
+        Pageable page = (Pageable) PageRequest.of(numeroPagina, qtdePagina);
+        return musicaRepository.findAll((Sort) page);
     }
 
+
+    @PreAuthorize("hasRole('USER')")
     @GetMapping
     public Iterable<Musica> obterMusica() {
         return musicaRepository.findAll();
@@ -63,11 +59,4 @@ public class MusicaController {
     public Optional<Musica> obterMusicaPorID(@PathVariable int id) {
         return musicaRepository.findById(id);
     }
-
-    @DeleteMapping(path = "/{id}")
-    public void deletarMusicaPorID(@PathVariable int id) {
-        musicaRepository.deleteById(id);
-    }
-
-
 }
