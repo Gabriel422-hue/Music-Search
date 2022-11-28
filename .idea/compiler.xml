@@ -8,11 +8,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="demo" />
         <module name="Searc-Music" />
+        <module name="Music-Search" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Music-Search" options="-parameters" />
       <module name="Searc-Music" options="-parameters" />
       <module name="demo" options="-parameters" />
     </option>

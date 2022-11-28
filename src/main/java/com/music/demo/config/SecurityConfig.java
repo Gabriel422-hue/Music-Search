@@ -35,7 +35,9 @@ public class SecurityConfig {
                 .userDetailsService(myUserDetailsService)
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 .httpBasic(Customizer.withDefaults())
+                .csrf().disable()
                 .build();
+
     }
 
     @Bean

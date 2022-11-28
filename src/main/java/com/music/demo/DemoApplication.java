@@ -15,12 +15,5 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-	@Bean
-	CommandLineRunner commandLineRunner(UserRepository users, PasswordEncoder encoder){
-		return args -> {
-			users.save(new User("user",encoder.encode("password"),"ROLE_USER"));
-			users.save(new User("admin",encoder.encode("password"),"ROLE_USER,ROLE_ADMIN"));
-		};
-	}
 
 }
