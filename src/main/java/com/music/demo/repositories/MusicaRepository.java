@@ -1,4 +1,4 @@
-package com.music.demo.model.repositories;
+package com.music.demo.repositories;
 
 import com.music.demo.model.Musica;
 import org.springframework.data.jpa.repository.Query;

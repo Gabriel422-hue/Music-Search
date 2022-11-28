@@ -1,15 +1,17 @@
 package com.music.demo.controllers;
 
 import com.music.demo.model.Musica;
-import com.music.demo.model.repositories.MusicaRepository;
+import com.music.demo.repositories.MusicaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.awt.print.Pageable;
 import java.util.Optional;
-
+@PreAuthorize("hasRole('ADMIN')")
 @RestController
 @RequestMapping("/api/musicas")
 public class MusicaController {
@@ -34,8 +36,8 @@ public class MusicaController {
             (@PathVariable int numeroPagina,
              @PathVariable int qtdePagina) {
         if (qtdePagina >= 5) qtdePagina = 5;
-        Pageable page = PageRequest.of(numeroPagina, qtdePagina);
-        return musicaRepository.findAll(page);
+        Pageable page = (Pageable) PageRequest.of(numeroPagina, qtdePagina);
+        return musicaRepository.findAll((Sort) page);
     }
 
     @GetMapping
